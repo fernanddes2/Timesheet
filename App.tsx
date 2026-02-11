@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { createRoot } from 'react-dom/client';
 import { Timer, HistoryItem } from './types';
 import CreateTimer from './components/CreateTimer';
 import TimerCard from './components/TimerCard';
@@ -13,7 +12,7 @@ const App: React.FC = () => {
   const [summary, setSummary] = useState<string | null>(null);
   const [isGeneratingSummary, setIsGeneratingSummary] = useState(false);
 
-  // Load state from local storage on mount
+  // Carregar estado do Local Storage ao iniciar
   useEffect(() => {
     const savedTimers = localStorage.getItem('smart-timesheet-timers');
     const savedHistory = localStorage.getItem('smart-timesheet-history');
@@ -21,7 +20,7 @@ const App: React.FC = () => {
     if (savedHistory) setHistory(JSON.parse(savedHistory));
   }, []);
 
-  // Save state to local storage on change
+  // Salvar estado no Local Storage quando houver mudanças
   useEffect(() => {
     localStorage.setItem('smart-timesheet-timers', JSON.stringify(timers));
   }, [timers]);
@@ -172,7 +171,7 @@ const App: React.FC = () => {
                     <h3 className="font-semibold">Resumo Inteligente</h3>
                 </div>
                 <div className="prose prose-invert prose-sm max-w-none text-slate-300">
-                     <div dangerouslySetInnerHTML={{ __html: summary.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>').replace(/\n/g, '<br />') }} />
+                      <div dangerouslySetInnerHTML={{ __html: summary.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>').replace(/\n/g, '<br />') }} />
                 </div>
             </div>
         )}
@@ -184,15 +183,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-const rootElement = document.getElementById('root');
-if (!rootElement) {
-  throw new Error("Could not find root element to mount to");
-}
-
-const root = createRoot(rootElement);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
