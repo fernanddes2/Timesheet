@@ -1,10 +1,13 @@
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 import { HistoryItem } from "../types";
 import { formatDurationVerbose } from "../utils/timeUtils";
 
 export const generateDailySummary = async (history: HistoryItem[]): Promise<string> => {
-  if (!process.env.API_KEY) {
-    return "API Key not configured. Please check your environment variables.";
+  // @ts-ignore
+  const apiKey = process.env.API_KEY; 
+
+  if (!apiKey) {
+    return "API Key not configured (Check Vercel Environment Variables).";
   }
 
   if (history.length === 0) {
