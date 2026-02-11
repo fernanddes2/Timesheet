@@ -95,8 +95,10 @@ const App: React.FC = () => {
   };
 
   const handleClearHistory = () => {
-    setHistory([]);
-    setSummary(null);
+    if (window.confirm('Tem certeza que deseja limpar todo o histórico?')) {
+      setHistory([]);
+      setSummary(null);
+    }
   }
 
   const handleGenerateSummary = async () => {
@@ -128,7 +130,7 @@ const App: React.FC = () => {
              <button
                 onClick={handleGenerateSummary}
                 disabled={isGeneratingSummary}
-                className="mt-4 sm:mt-0 px-4 py-2 rounded-lg bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 border border-slate-600 text-sm font-medium text-indigo-300 flex items-center gap-2 transition-all disabled:opacity-50"
+                className="mt-4 sm:mt-0 px-4 py-2 rounded-lg bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 border border-slate-600 text-sm font-medium text-indigo-300 flex items-center gap-2 transition-all disabled:opacity-50 shadow-lg shadow-indigo-500/10"
              >
                 {isGeneratingSummary ? (
                     <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
@@ -144,12 +146,12 @@ const App: React.FC = () => {
 
         <div className="space-y-4">
           {timers.length === 0 && history.length === 0 && (
-            <div className="text-center py-20 border-2 border-dashed border-slate-800 rounded-3xl">
+            <div className="text-center py-20 border-2 border-dashed border-slate-800 rounded-3xl bg-card/20 backdrop-blur-sm">
                 <div className="inline-flex p-4 rounded-full bg-slate-800/50 text-slate-600 mb-4">
                     <Icons.Clock className="w-8 h-8" />
                 </div>
                 <h3 className="text-lg font-medium text-slate-500">Nenhuma atividade iniciada</h3>
-                <p className="text-slate-600">Digite sua tarefa acima para começar a rastrear.</p>
+                <p className="text-slate-600 mt-1">Digite sua tarefa acima para começar a rastrear.</p>
             </div>
           )}
 
@@ -165,13 +167,13 @@ const App: React.FC = () => {
         </div>
 
         {summary && (
-            <div className="mt-8 p-6 bg-gradient-to-br from-indigo-900/30 to-purple-900/30 border border-indigo-500/30 rounded-2xl animate-fade-in">
+            <div className="mt-8 p-6 bg-gradient-to-br from-indigo-900/30 to-purple-900/30 border border-indigo-500/30 rounded-2xl animate-fade-in shadow-xl">
                 <div className="flex items-center gap-2 mb-4 text-indigo-300">
                     <Icons.Sparkles className="w-5 h-5" />
                     <h3 className="font-semibold">Resumo Inteligente</h3>
                 </div>
-                <div className="prose prose-invert prose-sm max-w-none text-slate-300">
-                      <div dangerouslySetInnerHTML={{ __html: summary.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>').replace(/\n/g, '<br />') }} />
+                <div className="prose prose-invert prose-sm max-w-none text-slate-300 leading-relaxed">
+                      <div dangerouslySetInnerHTML={{ __html: summary.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-bold">$1</strong>').replace(/\n/g, '<br />') }} />
                 </div>
             </div>
         )}
